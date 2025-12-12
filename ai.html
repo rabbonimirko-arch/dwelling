@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Parla con la nostra AI - Vendere Casa Como</title>
 
   <style>
@@ -11,9 +11,10 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      background-color: #000;
       overflow: hidden;
+      background-color: #000;
       font-family: system-ui, sans-serif;
+      touch-action: manipulation;
     }
 
     .wrapper {
@@ -21,13 +22,12 @@
       width: 100%;
       height: 100vh;
       aspect-ratio: 9/16;
-      background: radial-gradient(circle at center, #0c0c0c 0%, #000000 80%);
+      background: #000;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    /* L'avatar Heygen verrà ridimensionato a pieno schermo */
     #heygen-streaming-embed {
       position: fixed !important;
       inset: 0 !important;
@@ -35,17 +35,19 @@
       height: 100vh !important;
       border: none !important;
       border-radius: 0 !important;
-      box-shadow: none !important;
       overflow: hidden !important;
+      background-color: #000;
+      z-index: 1;
     }
 
     iframe {
       width: 100%;
       height: 100%;
       border: none;
+      background-color: #000;
     }
 
-    /* Optional: messaggio iniziale (mentre carica) */
+    /* Messaggio di caricamento */
     .loading {
       position: absolute;
       top: 50%;
@@ -55,11 +57,20 @@
       font-size: 1rem;
       text-align: center;
       animation: blink 1.5s infinite;
+      z-index: 10;
     }
 
     @keyframes blink {
-      0%, 100% { opacity: 0.5; }
+      0%, 100% { opacity: 0.4; }
       50% { opacity: 1; }
+    }
+
+    /* Ottimizzazione specifica per schermi stretti (smartphone) */
+    @media (max-width: 600px) {
+      #heygen-streaming-embed {
+        width: 100vw !important;
+        height: 100vh !important;
+      }
     }
   </style>
 </head>
@@ -74,11 +85,12 @@
   !function(window){
     const host="https://labs.heygen.com",
     url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJLYXR5YV9CbGFja19TdWl0X3B1YmxpYyIs%0D%0AInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzL2RhNWNiYTZi%0D%0AYzdiMzRjNWVhMTM5Zjc3ZGE5OGZkYzA0XzU1MzcwL3ByZXZpZXdfdGFsa18xLndlYnAiLCJuZWVk%0D%0AUmVtb3ZlQmFja2dyb3VuZCI6dHJ1ZSwia25vd2xlZGdlQmFzZUlkIjoiY2MwNDA3NWVmYzEyNGZm%0D%0ANTg2NzgzYmE4YTAxYzlhZDAiLCJ1c2VybmFtZSI6ImZiNDBjZGI1NjdlZjRjMTg5MDM4NDkwODI5%0D%0AYzIwZTZmIn0%3D&inIFrame=1",
-    clientWidth=document.body.clientWidth,
     wrapDiv=document.createElement("div");
     wrapDiv.id="heygen-streaming-embed";
+
     const container=document.createElement("div");
     container.id="heygen-streaming-container";
+
     const stylesheet=document.createElement("style");
     stylesheet.innerHTML=`
       #heygen-streaming-embed {
@@ -94,6 +106,7 @@
         opacity: 0;
         visibility: hidden;
         transition: all 0.4s ease;
+        background-color: #000;
       }
       #heygen-streaming-embed.show {
         opacity: 1;
@@ -109,20 +122,23 @@
         border: 0;
       }
     `;
+
     const iframe=document.createElement("iframe");
     iframe.allowFullscreen=!1;
     iframe.title="Streaming Embed";
     iframe.role="dialog";
     iframe.allow="microphone";
     iframe.src=url;
+
     let visible=!1,initial=!1;
     window.addEventListener("message",(e=>{
-      e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&(
-        "init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):
-        "show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):
-        "hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible))
+      e.origin===host && e.data && e.data.type==="streaming-embed" && (
+        e.data.action==="init" ? (initial=!0,wrapDiv.classList.toggle("show",initial)) :
+        e.data.action==="show" ? (visible=!0,wrapDiv.classList.toggle("expand",visible)) :
+        e.data.action==="hide" && (visible=!1,wrapDiv.classList.toggle("expand",visible))
       )
     }));
+
     container.appendChild(iframe);
     wrapDiv.appendChild(stylesheet);
     wrapDiv.appendChild(container);
