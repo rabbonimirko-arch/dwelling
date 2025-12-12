@@ -2,103 +2,145 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#000000" />
   <title>AI – Vendere Casa Como</title>
+
   <style>
-    html,
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: system-ui, sans-serif;
+    }
+
+    #heygen-streaming-embed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      margin: 0;
+      padding: 0;
       background: #000;
       overflow: hidden;
     }
 
-    /* Leggera ottimizzazione visiva del video */
-    iframe {
-      filter: brightness(1.05) contrast(1.05);
+    #heygen-streaming-container {
+      width: 100%;
+      height: 100%;
     }
 
-    /* LASCIO visibili i pulsanti lingua/chat.
-       Se vuoi togliere solo il watermark di HeyGen, possiamo aggiungere selettori mirati. */
+    #heygen-streaming-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Ottimizzazione per 9:16 */
+    @media (max-aspect-ratio: 9/16) {
+      #heygen-streaming-embed,
+      #heygen-streaming-container,
+      #heygen-streaming-container iframe {
+        width: 100vw;
+        height: 100vh;
+      }
+    }
+
+    /* Messaggio di caricamento */
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #f4b425;
+      font-size: 1rem;
+      text-align: center;
+      animation: blink 1.5s infinite;
+      z-index: 10;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
   </style>
 </head>
+
 <body>
+  <div class="loading">Caricamento dell'AI in corso...</div>
+
   <script>
-    !function (window) {
-      const host = "https://labs.heygen.com";
-      const url =
-        "https://labs.heygen.com/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJLYXR5YV9CbGFja19TdWl0X3B1YmxpYyIs%0D%0AInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzL2RhNWNiYTZi%0D%0AYzdiMzRjNWVhMTM5Zjc3ZGE5OGZkYzA0XzU1MzcwL3ByZXZpZXdfdGFsa18xLndlYnAiLCJuZWVk%0D%0AUmVtb3ZlQmFja2dyb3VuZCI6dHJ1ZSwia25vd2xlZGdlQmFzZUlkIjoiY2MwNDA3NWVmYzEyNGZm%0D%0ANTg2NzgzYmE4YTAxYzlhZDAiLCJ1c2VybmFtZSI6ImZiNDBjZGI1NjdlZjRjMTg5MDM4NDkwODI5%0D%0AYzIwZTZmIn0%3D&inIFrame=1";
-
-      const wrapDiv = document.createElement("div");
-      wrapDiv.id = "heygen-streaming-embed";
-
-      const container = document.createElement("div");
-      container.id = "heygen-streaming-container";
-
-      const stylesheet = document.createElement("style");
-      stylesheet.innerHTML = `
-        #heygen-streaming-embed {
-          z-index: 9999;
-          position: fixed;
-          inset: 0;
-          width: 100vw;
-          height: 100vh;
-          border: 0;
-          overflow: hidden;
-          background: #000;
-          opacity: 0;
-          visibility: hidden;
-        }
-        #heygen-streaming-embed.show {
-          opacity: 1;
-          visibility: visible;
-        }
-        #heygen-streaming-container {
-          width: 100%;
-          height: 100%;
-        }
-        #heygen-streaming-container iframe {
-          width: 100%;
-          height: 100%;
-          border: 0;
-          background: #000;
-        }
-      `;
-
-      const iframe = document.createElement("iframe");
-      iframe.allowFullscreen = false;
-      iframe.title = "Streaming Embed";
-      iframe.role = "dialog";
-      iframe.allow = "microphone";
-      iframe.src = url;
-
-      let visible = false;
-      let initial = false;
-
-      window.addEventListener("message", (e) => {
-        if (e.origin === host && e.data && e.data.type === "streaming-embed") {
-          if (e.data.action === "init") {
-            initial = true;
-            wrapDiv.classList.add("show");
-          } else if (e.data.action === "show") {
-            visible = true;
-          } else if (e.data.action === "hide") {
-            visible = false;
-          }
-        }
-      });
-
-      container.appendChild(iframe);
-      wrapDiv.appendChild(stylesheet);
-      wrapDiv.appendChild(container);
-      document.body.appendChild(wrapDiv);
-    }(globalThis);
+  !function(window){
+    const host="https://labs.heygen.com",
+    url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJLYXR5YV9CbGFja19TdWl0X3B1YmxpYyIs%0D%0AInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzL2RhNWNiYTZi%0D%0AYzdiMzRjNWVhMTM5Zjc3ZGE5OGZkYzA0XzU1MzcwL3ByZXZpZXdfdGFsa18xLndlYnAiLCJuZWVk%0D%0AUmVtb3ZlQmFja2dyb3VuZCI6dHJ1ZSwia25vd2xlZGdlQmFzZUlkIjoiY2MwNDA3NWVmYzEyNGZm%0D%0ANTg2NzgzYmE4YTAxYzlhZDAiLCJ1c2VybmFtZSI6ImZiNDBjZGI1NjdlZjRjMTg5MDM4NDkwODI5%0D%0AYzIwZTZmIn0%3D&inIFrame=1",
+    clientWidth=document.body.clientWidth,
+    wrapDiv=document.createElement("div");
+    wrapDiv.id="heygen-streaming-embed";
+    const container=document.createElement("div");
+    container.id="heygen-streaming-container";
+    const stylesheet=document.createElement("style");
+    stylesheet.innerHTML=`
+      #heygen-streaming-embed {
+        z-index: 9999;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        transition: all linear 0.1s;
+        background: #000;
+      }
+      #heygen-streaming-embed.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      #heygen-streaming-embed.expand {
+        ${clientWidth < 540
+          ? "height: 100vh; width: 100vw; left: 0; transform: none;"
+          : "height: 100vh; width: 100vw;"}
+        border: 0;
+        border-radius: 0;
+      }
+      #heygen-streaming-container {
+        width: 100%;
+        height: 100%;
+      }
+      #heygen-streaming-container iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+    `;
+    const iframe=document.createElement("iframe");
+    iframe.allowFullscreen=!1;
+    iframe.title="Streaming Embed";
+    iframe.role="dialog";
+    iframe.allow="microphone";
+    iframe.src=url;
+    let visible=!1,initial=!1;
+    window.addEventListener("message",(e=>{
+      e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&(
+        "init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):
+        "show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):
+        "hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible))
+      )
+    }));
+    container.appendChild(iframe);
+    wrapDiv.appendChild(stylesheet);
+    wrapDiv.appendChild(container);
+    document.body.appendChild(wrapDiv);
+  }(globalThis);
   </script>
 </body>
 </html>
