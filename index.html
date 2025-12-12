@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vendere Casa Como - Contatti</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg1: #021b2b;
+      --bg2: #073750;
+      --accent: #f4b425;
+      --accent-soft: rgba(244, 180, 37, 0.25);
+      --text-main: #ffffff;
+      --text-muted: #c0d5e5;
+      --btn-bg: #0d4664;
+      --btn-hover: #115478;
+      --shadow-3d: 0 16px 30px rgba(0, 0, 0, 0.35);
+      --radius-xl: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at top, #0c4670 0, #020b12 55%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone-frame {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 9 / 16;
+      max-height: 100vh;
+      padding: 18px 14px;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    .glass-card {
+      position: relative;
+      flex: 1;
+      border-radius: var(--radius-xl);
+      padding: 20px 18px;
+      background: linear-gradient(145deg, rgba(3, 24, 44, 0.95), rgba(5, 45, 73, 0.96));
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.55);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at top right, rgba(244, 180, 37, 0.3), transparent 55%),
+        radial-gradient(circle at bottom left, rgba(26, 188, 156, 0.2), transparent 55%);
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .logo-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .logo-image {
+      width: 72%;
+      max-width: 260px;
+      object-fit: contain;
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.7));
+      animation: logoFloat 2.8s ease-in-out infinite;
+    }
+
+    .brand-title {
+      margin-top: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .brand-subtitle {
+      margin-top: 4px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.25;
+    }
+
+    .buttons {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      perspective: 900px;
+    }
+
+    .btn {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      padding: 12px 14px;
+      border-radius: 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: radial-gradient(circle at top left, var(--accent-soft), var(--btn-bg));
+      color: var(--text-main);
+      box-shadow: var(--shadow-3d);
+      transform-origin: center;
+      transform: translateY(30px) scale(0.94) rotateX(10deg);
+      opacity: 0;
+      animation: floatIn 0.7s ease-out forwards;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f4b425, #f78f1e);
+      color: #211000;
+      border-color: rgba(0, 0, 0, 0.25);
+      box-shadow: 0 16px 35px rgba(247, 143, 30, 0.5);
+    }
+
+    .buttons .btn:nth-child(1) { animation-delay: 0.25s; }
+    .buttons .btn:nth-child(2) { animation-delay: 0.40s; }
+    .buttons .btn:nth-child(3) { animation-delay: 0.55s; }
+    .buttons .btn:nth-child(4) { animation-delay: 0.70s; }
+    .buttons .btn:nth-child(5) { animation-delay: 0.85s; }
+    .buttons .btn:nth-child(6) { animation-delay: 1.00s; }
+
+    @keyframes floatIn {
+      0% { opacity: 0; transform: translateY(30px) scale(0.9) rotateX(18deg); }
+      60% { opacity: 1; transform: translateY(-4px) scale(1.02) rotateX(0deg); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotateX(0deg); }
+    }
+
+    @keyframes logoFloat {
+      0% { transform: translateY(0) scale(1.02); }
+      50% { transform: translateY(-8px) scale(1.05); }
+      100% { transform: translateY(0) scale(1.02); }
+    }
+
+    .footer {
+      margin-top: 10px;
+      font-size: 0.70rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+      text-align: center;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-frame">
+    <div class="glass-card">
+      <div class="card-inner">
+        <div class="logo-box">
+          <img src="logo-venderecasa-como.png" alt="Vendere Casa Como Logo" class="logo-image" />
+          <div class="brand-title">Vendere Casa a Como e provincia</div>
+          <div class="brand-subtitle">
+            Strategia su misura, assistenza completa e consulenza dedicata
+            per vendere o acquistare il tuo immobile in sicurezza.
+          </div>
+        </div>
+
+        <div class="buttons">
+          <a href="ai.html" class="btn btn-primary">Parla con l'AI per chiedere informazioni</a>
+          <a href="tel:+393349245606" class="btn">Chiama ora +39 334 9245606</a>
+          <a href="https://wa.me/393349245606" class="btn">Scrivi su WhatsApp</a>
+          <a href="mailto:info@venderecasa.como.it" class="btn">Invia una email</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Via+Leonardo+Da+Vinci+5,+22030+Montorfano+(CO)" target="_blank" class="btn">Come arrivare</a>
+          <a href="https://www.venderecasa.como.it/" target="_blank" class="btn">Visita il sito</a>
+        </div>
+
+        <div class="footer">
+          <p><strong>VendereCasa Como</strong><br>
+          Via Leonardo Da Vinci 5, 22030 Montorfano (CO)<br>
+          Tel: +39 334 9245606 · 
+          <a href="mailto:info@venderecasa.como.it">info@venderecasa.como.it</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
