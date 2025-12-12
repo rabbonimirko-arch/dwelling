@@ -41,7 +41,7 @@
       border: none;
     }
 
-    /* Ottimizzazione per 9:16 */
+    /* Ottimizzazione 9:16 per smartphone */
     @media (max-aspect-ratio: 9/16) {
       #heygen-streaming-embed,
       #heygen-streaming-container,
@@ -74,10 +74,11 @@
 <body>
   <div class="loading">Caricamento dell'AI in corso...</div>
 
+  <!-- SCRIPT HEYGEN nuovo -->
   <script>
   !function(window){
     const host="https://labs.heygen.com",
-    url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJLYXR5YV9CbGFja19TdWl0X3B1YmxpYyIs%0D%0AInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzL2RhNWNiYTZi%0D%0AYzdiMzRjNWVhMTM5Zjc3ZGE5OGZkYzA0XzU1MzcwL3ByZXZpZXdfdGFsa18xLndlYnAiLCJuZWVk%0D%0AUmVtb3ZlQmFja2dyb3VuZCI6dHJ1ZSwia25vd2xlZGdlQmFzZUlkIjoiY2MwNDA3NWVmYzEyNGZm%0D%0ANTg2NzgzYmE4YTAxYzlhZDAiLCJ1c2VybmFtZSI6ImZiNDBjZGI1NjdlZjRjMTg5MDM4NDkwODI5%0D%0AYzIwZTZmIn0%3D&inIFrame=1",
+    url=host+"/guest/streaming-embed?share=eyJxdWFsaXR5IjoiaGlnaCIsImF2YXRhck5hbWUiOiJLYXR5YV9Qcm9mZXNzaW9uYWxMb29rX3B1%0D%0AYmxpYyIsInByZXZpZXdJbWciOiJodHRwczovL2ZpbGVzMi5oZXlnZW4uYWkvYXZhdGFyL3YzLzM0%0D%0AOGRkZjUwM2M2NTRiOWJiYmI4YmVhOWY5MjEwZWFkXzU1ODcwL3ByZXZpZXdfdGFyZ2V0LndlYnAi%0D%0ALCJuZWVkUmVtb3ZlQmFja2dyb3VuZCI6dHJ1ZSwia25vd2xlZGdlQmFzZUlkIjoiY2MwNDA3NWVm%0D%0AYzEyNGZmNTg2NzgzYmE4YTAxYzlhZDAiLCJ1c2VybmFtZSI6ImZiNDBjZGI1NjdlZjRjMTg5MDM4%0D%0ANDkwODI5YzIwZTZmIn0%3D&inIFrame=1",
     clientWidth=document.body.clientWidth,
     wrapDiv=document.createElement("div");
     wrapDiv.id="heygen-streaming-embed";
@@ -131,7 +132,7 @@
     let visible=!1,initial=!1;
     window.addEventListener("message",(e=>{
       e.origin===host&&e.data&&e.data.type&&"streaming-embed"===e.data.type&&(
-        "init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial)):
+        "init"===e.data.action?(initial=!0,wrapDiv.classList.toggle("show",initial),document.querySelector('.loading')?.remove()):
         "show"===e.data.action?(visible=!0,wrapDiv.classList.toggle("expand",visible)):
         "hide"===e.data.action&&(visible=!1,wrapDiv.classList.toggle("expand",visible))
       )
@@ -142,5 +143,6 @@
     document.body.appendChild(wrapDiv);
   }(globalThis);
   </script>
+
 </body>
 </html>
